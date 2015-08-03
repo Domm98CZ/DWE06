@@ -1,0 +1,27 @@
+unactivate - neaktivovaný uživatel
+blocked - neaktivovaný uživatel
+A - Standartní uživatel
+B - Volná k použití
+C - Volná k použití
+D - Volná k použití
+F - Administrátor práva (dashboard)
+G - Administrátor práva (uživatele)
+H - Administrátor práva (nahlášení)
+I - Administrátor práva (blokace)
+J - Administrátor práva (hromadné zprávy)
+K - Administrátor práva (příspěvky)
+L - Administrátor práva (vzhled)
+M - Administrátor práva (menu)
+N - Administrátor práva (soubory)
+O - Administrátor práva (stránky)
+P - Administrátor práva (sidebar)
+Q - Administrátor práva (pluginy)
+R - Administrátor práva (hl.nastavení)
+S - Administrátor práva (ost.nastavení)
+T - Administrátor práva (aktualizace)
+U - Práva mazat komentáře
+V - Práva mazat statusy
+W - Volná k použití
+X - Hlavní administrátor
+Y - Volná k použití
+Z - Volná k použití
