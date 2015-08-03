@@ -295,6 +295,7 @@ require_once "_core/functions/Web.func.php";
                     Database_Insert("OPTIONS", array("OPTION_VALUE" => "DWE, Domm Web Engine", "OPTION_KEY" => "KEYWORDS"));
                     Database_Insert("OPTIONS", array("OPTION_VALUE" => "Web powered by DWE.", "OPTION_KEY" => "DESCRIPTION"));
                     Database_Insert("OPTIONS", array("OPTION_VALUE" => "false", "OPTION_KEY" => "CLOUDFLARE"));
+                    Database_Insert("OPTIONS", array("OPTION_VALUE" => "default", "OPTION_KEY" => "MENU"));
                     
                     Database_Insert("OPTIONS", array("OPTION_VALUE" => "5", "OPTION_KEY" => "NEWS_PP"));
                     Database_Insert("OPTIONS", array("OPTION_VALUE" => "5", "OPTION_KEY" => "COMMENT_N_PP"));
