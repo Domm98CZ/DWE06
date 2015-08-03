@@ -1,5 +1,5 @@
 <?php
-//error_reporting(0);
+error_reporting(0);
 ob_start();
 include "config.php";
 
@@ -36,6 +36,4 @@ else
   $opt = array_keys($_SESSION);
   for($i = 0;$i < count($opt);$i++) unset($_SESSION[$opt[$i]]);
 }
-
-if(User_IP(1) != "78.102.20.9" && User_IP(1) != "77.78.89.185") die("Litujeme, ale nemate pravo k pristupu k tomuto souboru!");
 ?>
