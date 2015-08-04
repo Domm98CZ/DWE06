@@ -1,23 +1,15 @@
 <?php
 function ShowColorPicker($name, $color = null)
 {
-  $active_color = array();
-  $active_color[0] = (empty($color)) ? " selected" : "";
-  $active_color[1] = ($color == "default") ? " selected" : "";
-  $active_color[2] = ($color == "primary") ? " selected" : "";
-  $active_color[3] = ($color == "info") ? " selected" : "";
-  $active_color[4] = ($color == "success") ? " selected" : "";
-  $active_color[5] = ($color == "warning") ? " selected" : "";
-  $active_color[6] = ($color == "danger") ? " selected" : "";
   ?>
   <select name="<?php echo $name;?>" class="form-control">
-    <option<?php echo $active_color[0];?> disabled><?php echo Web_GetLocale("COLOR_01");?></option>
-    <option<?php echo $active_color[1];?> value='default'><?php echo Web_GetLocale("COLOR_02");?></option>
-    <option<?php echo $active_color[2];?> value='primary'><?php echo Web_GetLocale("COLOR_03");?></option>
-    <option<?php echo $active_color[3];?> value='info'><?php echo Web_GetLocale("COLOR_04");?></option>
-    <option<?php echo $active_color[4];?> value='success'><?php echo Web_GetLocale("COLOR_05");?></option>
-    <option<?php echo $active_color[5];?> value='warning'><?php echo Web_GetLocale("COLOR_06");?></option>
-    <option<?php echo $active_color[6];?> value='danger'><?php echo Web_GetLocale("COLOR_07");?></option>
+    <option<?php echo (empty($color)) ? " selected" : "";?> disabled><?php echo Web_GetLocale("COLOR_01");?></option>
+    <option<?php echo ($color == "default") ? " selected" : ""?> value='default'>Default</option>
+    <option<?php echo ($color == "primary") ? " selected" : "";?> value='primary'>Primary</option>
+    <option<?php echo ($color == "info") ? " selected" : "";?> value='info'>Info</option>
+    <option<?php echo ($color == "success") ? " selected" : "";?> value='success'>Success</option>
+    <option<?php echo ($color == "warning") ? " selected" : "";?> value='warning'>Warning</option>
+    <option<?php echo ($color == "danger") ? " selected" : "";?> value='danger'>Danger</option>
   </select>
   <?php
 }
@@ -226,7 +218,20 @@ function Web_GetLocale($msg)
   else return $fail_text; 
 }
 
-function Web_VersionCheck()
+function Web_ShowUpdates()
+{
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_HEADER, 0);
+  curl_setopt($ch, CURLOPT_URL, "http://dwe.domm98.cz/updates/updates.php");
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+  $updates_data = curl_exec($ch);
+  curl_close($ch);  
+  return $updates_data;  
+}
+
+function Web_VersionCheck($reupdate = 0)
 {
   $x = Web_GetVersion();
   $v = explode(" #", $x);
@@ -269,9 +274,9 @@ function Web_VersionCheck()
     }  
   }
   
-  if(floatval($update_version) >= floatval($version))
+  if(floatval($update_version) >= floatval($version) || $reupdate == 1)
   {
-    if(intval($update_build) > intval($build))
+    if(intval($update_build) > intval($build) || $reupdate == 1)
     {
       $conf = $GLOBALS["conf"];
       File_CreateConfig(
@@ -307,7 +312,7 @@ function Web_VersionCheck()
             $update_str .= "".$update_file[$y]["PATH"]." - Updated<br>"; 
           }
         }
-        else if($update_file[$y]["PATH"]["ACTION"] == "CREATE")
+        else if($update_file[$y]["ACTION"] == "CREATE")
         {         
           $file_content = file_get_contents("http://dwe.domm98.cz/updates/update_files/".$update_time."/".$update_file[$y]["UPDATE"]);
           if($file_content)

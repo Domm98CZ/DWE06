@@ -150,7 +150,7 @@ require_once "_core/functions/Web.func.php";
                 <label>Prefix tabulek (pokud nevíte o co se jedná, nechte toto pole tak jak je)</label>
                 <input type="text" class="form-control" name="db_prefix" value="<?php echo rand(10000, 99999);?>DWE_">
               </div> 
-              <input type="submit" class="btn btn-block btn-primary" value="Setup Database" name="db_setup">
+              <input type="submit" class="btn btn-block btn-primary" value="Připravit databázi" name="db_setup">
             </form>
             <?php
             if(@$_POST["db_setup"])
@@ -170,7 +170,7 @@ require_once "_core/functions/Web.func.php";
                           "DB:PASS" => $_POST["db_password"],  
                           "DB:PREFIX" => $_POST["db_prefix"],  
                           "DWE:VERSION" => "6.0",  
-                          "DWE:BUILD" => 1
+                          "DWE:BUILD" => 4
                       ));  
                       header("location: setup.php?step=2");
                     $dwe_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

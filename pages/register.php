@@ -16,8 +16,8 @@ else
 <div class="panel panel-default">
   <div class="panel-body">
     <h1><?php echo Web_GetLocale("REGISTER_01");?></h1>
-      <section class="container">
-        <div class="container-page">
+      <section>
+        <div>
           <form method="post">
             <div class="form-group col-lg-12">
               <label><?php echo Web_GetLocale("REGISTER_02");?></label>
@@ -50,9 +50,9 @@ else
             </div>
             
             <div style="float:right;text-align:right;">
-              <p class="text-primary"><?php echo Web_GetLocale("REGISTER_08");?></p>
               <a href="?page=login" class="btn btn-primary"><?php echo Web_GetLocale("LOGIN_07");?></a>
               <input type="submit" name="register" value="<?php echo Web_GetLocale("REGISTER_09");?>" class="btn btn-primary">
+              <p class="text-primary"><?php echo Web_GetLocale("REGISTER_08");?></p>
             </div>
           </form>
         </div>
@@ -119,23 +119,23 @@ else
                         ".Web_GetLocale("EMAIL_02")."
                       </p>
                       ");
-                      ShowNotification("success", Web_GetLocale("REGISTER_OK"));
+                      echo Web_GetLocale("REGISTER_OK");
                     } 
-                    else ShowNotification("warning", Web_GetLocale("REGISTER_E07"));
+                    else echo Web_GetLocale("REGISTER_E07");
                   } 
-                  else ShowNotification("warning", Web_GetLocale("REGISTER_E08"));
+                  else echo Web_GetLocale("REGISTER_E08");
                 }
-                else ShowNotification("warning", Web_GetLocale("REGISTER_E06"));
+                else echo Web_GetLocale("REGISTER_E06");
               }
-              else ShowNotification("warning", Web_GetLocale("REGISTER_E05"));
+              else echo Web_GetLocale("REGISTER_E05");
             }
-            else ShowNotification("warning", Web_GetLocale("REGISTER_E04")); 
+            else echo Web_GetLocale("REGISTER_E04"); 
           }
-          else ShowNotification("warning", Web_GetLocale("REGISTER_E03"));
+          else echo Web_GetLocale("REGISTER_E03");
         }
-        else ShowNotification("warning", Web_GetLocale("REGISTER_E02"));
+        else echo Web_GetLocale("REGISTER_E02");
       }
-      else ShowNotification("warning", Web_GetLocale("REGISTER_E01"));
+      else echo Web_GetLocale("REGISTER_E01");
     }
     ?>
   </div>

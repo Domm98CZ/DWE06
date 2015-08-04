@@ -198,6 +198,15 @@ if($_SESSION["USER_ID"] > 0)
                 <a href="?page=admin&admin=update" class="btn btn-success"><?php echo Web_GetLocale("ADMIN_B");?></a>
                 <?php 
               }
+              else if(!empty($_GET["action"]) && isset($_GET["action"]) && $_GET["action"] == "reupdate")
+              {
+                $update_data = Web_VersionCheck(1);
+                echo Web_GetLocale("ADMIN_206")."<hr>".$update_data."<hr>";
+                ?>
+                <br>
+                <a href="?page=admin&admin=update" class="btn btn-success"><?php echo Web_GetLocale("ADMIN_B");?></a>
+                <?php 
+              }
               else
               {
                 ?>
@@ -207,8 +216,11 @@ if($_SESSION["USER_ID"] > 0)
                   <li><?php echo Web_GetLocale("ADMIN_168");?>: <?php echo Web_GetVersion();?></li>
                 </ul>
                 <a href="?page=admin&admin=update&action=update" class="btn btn-success"><?php echo Web_GetLocale("ADMIN_169");?></a>
+                <a href="?page=admin&admin=update&action=reupdate" class="btn btn-warning"><?php echo Web_GetLocale("ADMIN_205");?></a>
                 <p>*<?php echo Web_GetLocale("ADMIN_170");?></p>
                 <?php
+                echo "<h2>".Web_GetLocale("ADMIN_204")."</h2>";
+                echo Web_ShowUpdates();
               }
             }
             else if($_GET["admin"] == "menu" && User_Rights($_SESSION["USER_ID"], "M"))
@@ -1166,7 +1178,7 @@ if($_SESSION["USER_ID"] > 0)
             {  
               if(!empty($_GET["action"]) && isset($_GET["action"]) && !empty($_GET["file"]) && isset($_GET["file"]))
               {
-                if(file_exists(UPLOAD_DIR.$_GET["file"]))
+                if($_GET["action"] == "view" && file_exists(UPLOAD_DIR.$_GET["file"]))
                 {
                   ?>
                   <h1><?php echo File_GetIconFromFile(UPLOAD_DIR.$_GET["file"])." ".$_GET["file"];?></h1>

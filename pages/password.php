@@ -14,8 +14,8 @@ else
         <div class="panel panel-default">
           <div class="panel-body">  
             <h1><?php echo Web_GetLocale("PASS_01");?></h1>
-            <section class="container">
-              <div class="container-page">
+            <section>
+              <div>
                 <p><?php echo Web_GetLocale("PASS_07");?></p>
                 
                 <form method="post">
@@ -77,8 +77,8 @@ else
     <div class="panel panel-default">
       <div class="panel-body">  
         <h1><?php echo Web_GetLocale("PASS_01");?></h1>
-        <section class="container">
-          <div class="container-page">
+        <section>
+          <div>
             <p><?php echo Web_GetLocale("PASS_02");?></p>
             
             <form method="post">

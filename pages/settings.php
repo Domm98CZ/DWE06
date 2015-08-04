@@ -8,8 +8,8 @@ if($_SESSION["USER_ID"] > 0)
     </div>
     <div class="panel-body">
     
-      <section class="container">
-    		<div class="container-page">
+      <section>
+
     			<div class="col-md-12">		  
     				<div class="panel panel-default">
     					<div class="panel-body">
@@ -193,7 +193,6 @@ if($_SESSION["USER_ID"] > 0)
               </div>
             </div>
           </div>
-        </div>
       </section>   
     
     </div>
