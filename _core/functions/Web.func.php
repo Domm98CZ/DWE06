@@ -218,6 +218,17 @@ function Web_GetLocale($msg)
   else return $fail_text; 
 }
 
+function Web_HashFile($path)
+{
+  $file_hash = null;
+  $file_string = null;
+  if(!file_exists($path)) return "Error - File doesn't exists.";
+  $rows = file($path);
+  foreach($rows as $row) $file_string .= hash("sha256", rtrim($row).md5(rtrim($row)));
+  $file_hash = hash("sha256", hash("sha256", $file_string)); 
+  return $file_hash;  
+}
+
 function Web_ShowUpdates()
 {
   $ch = curl_init();
@@ -253,6 +264,7 @@ function Web_VersionCheck($reupdate = 0)
   $update_files = 0;
   $update_file = null;
   $update_str = null;
+  $web_file = null;
   
   if(preg_match('/\(Lastest Version: (.*?)\)/', $updater_data, $matches1))
   {
@@ -263,21 +275,58 @@ function Web_VersionCheck($reupdate = 0)
   if(preg_match('/\(Version Name: (.*?)\)/', $updater_data, $matches2)) $update_name = $matches2[1]; 
   if(preg_match('/\(Published Time: (.*?)\)/', $updater_data, $matches3)) $update_time = $matches3[1];
   if(preg_match('/\(Updated Files: (.*?)\)/', $updater_data, $matches4)) $update_files = $matches4[1]; 
-   
-  for($i = 0;$i < $update_files;$i ++)
-  {
-    if(preg_match('/\(File #'.$i.': \[Path: (.*?)\]\[Update: (.*?)\]\[Action: (.*?)\]\)/', $updater_data, $matches5)) 
+  
+  if(floatval($update_version) > floatval($version) || intval($update_build) > intval($build) || $reupdate == 1)
+  { 
+    for($i = 0;$i < $update_files;$i ++)
     {
-      $update_file[$i]["PATH"] = $matches5[1];
-      $update_file[$i]["UPDATE"] = $matches5[2];
-      $update_file[$i]["ACTION"] = $matches5[3];
-    }  
+      if(preg_match('/\(File #'.$i.': \[Path: (.*?)\]\[Update: (.*?)\]\[Action: (.*?)\]\)/', $updater_data, $matches5)) 
+      {
+        $update_file[$i]["PATH"] = $matches5[1];
+        $update_file[$i]["UPDATE"] = $matches5[2];
+        $update_file[$i]["ACTION"] = $matches5[3];
+        $update_file[$i]["W_PATH"] = $update_time."/".$update_file[$i]["UPDATE"];
+      }  
+    }
+  }   
+  
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_HEADER, 0);
+  curl_setopt($ch, CURLOPT_URL, "http://dwe.domm98.cz/updates/file_info.php");
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+  $file_json = curl_exec($ch);
+  curl_close($ch); 
+  
+  $file_info = json_decode($file_json, true);
+  
+                                                      
+  for($x = 0;$x < count($file_info["path"]);$x ++) 
+  {
+    if($file_info["modify"][$x] > 1)
+    {
+      if($file_info["modify"][$x] > filemtime("_core/config.php") || Web_HashFile($file_info["path"][$x]) != $file_info["hash"][$x])
+      {
+        for($c = 0;$c < count($update_file);$c ++)
+        {
+          if (!strstr($update_file[$c]["PATH"], $file_info["path"][$x])) 
+          {
+            $update_file[$update_files+$x]["PATH"] = $file_info["path"][$x];
+            $update_file[$update_files+$x]["UPDATE"] = $file_info["dwe_name"][$x];
+            $update_file[$update_files+$x]["ACTION"] = "UPDATE";
+            $update_file[$update_files+$x]["W_PATH"] = $file_info["modify"][$x]."/".$update_file[$update_files+$x]["UPDATE"];
+            if($reupdate == 0) $reupdate = 2;
+          }
+        }
+      }   
+    }
   }
   
-  if(floatval($update_version) >= floatval($version) || $reupdate == 1)
+  if(count($update_file) > 0) array_splice($update_file, 0, 0);    
+
+  if(floatval($update_version) > floatval($version) || intval($update_build) > intval($build) || $reupdate > 0)
   {
-    if(intval($update_build) > intval($build) || $reupdate == 1)
-    {
       $conf = $GLOBALS["conf"];
       File_CreateConfig(
         array(
@@ -302,7 +351,7 @@ function Web_VersionCheck($reupdate = 0)
         }
         else if($update_file[$y]["ACTION"] == "UPDATE")
         {  
-          $file_content = file_get_contents("http://dwe.domm98.cz/updates/update_files/".$update_time."/".$update_file[$y]["UPDATE"]);
+          $file_content = file_get_contents("http://dwe.domm98.cz/updates/update_files/".$update_file[$y]["W_PATH"]);
           if($file_content)
           {       
             if(file_exists($update_file[$y]["PATH"])) unlink($update_file[$y]["PATH"]);
@@ -314,7 +363,7 @@ function Web_VersionCheck($reupdate = 0)
         }
         else if($update_file[$y]["ACTION"] == "CREATE")
         {         
-          $file_content = file_get_contents("http://dwe.domm98.cz/updates/update_files/".$update_time."/".$update_file[$y]["UPDATE"]);
+          $file_content = file_get_contents("http://dwe.domm98.cz/updates/update_files/".$update_file[$y]["W_PATH"]);
           if($file_content)
           {
             $file = fopen ($update_file[$y]["PATH"],'w');
@@ -323,11 +372,18 @@ function Web_VersionCheck($reupdate = 0)
             $update_str .= "".$update_file[$y]["PATH"]." - Created<br>";     
           }
         }
+        else if($update_file[$y]["ACTION"] == "MKDIR")
+        {         
+          if(!file_exists($update_file[$y]["PATH"])) 
+          {
+            mkdir($update_file[$y]["PATH"]);
+            $update_str .= "".$update_file[$y]["PATH"]." - Dir Created<br>";
+          }
+        }
       }
       return $update_str;
-    }
-    else if(intval($update_build) == intval($build)) return "OK";
   }
+  else if(intval($update_build) == intval($build)) return "OK";
 }
 
 
