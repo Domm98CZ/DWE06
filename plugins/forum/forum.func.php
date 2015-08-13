@@ -346,15 +346,11 @@ function Forum_ShowTopicInCat($topic_id)
       <td style='text-align:center;' width="10%">
         <?php
         $count = 0;
-        $topics_id = Database_Select_All("FORUM_TOPICS", array("CAT_ID" => $topic_data["CAT_ID"]), "TOPIC_ID");
-        for($y = 0;$y < count($topics_id);$y ++)
+        $threads_id = Database_Select_All("FORUM_THREADS", array("TOPIC_ID" => $topic_data["TOPIC_ID"])); 
+        for($i = 0;$i < count($threads_id);$i ++)
         {
-          $threads_id = Database_Select_All("FORUM_THREADS", array("TOPIC_ID" => $topics_id[$y]["TOPIC_ID"]), "THREAD_ID"); 
-          for($i = 0;$i < count($threads_id);$i ++)
-          {
-            $count_this = Database_Count("FORUM_REPLIES", array("THREAD_ID" => $threads_id[$i]["THREAD_ID"]));
-            $count = $count + $count_this; 
-          }
+          $count_this = Database_Count("FORUM_REPLIES", array("THREAD_ID" => $threads_id[$i]["THREAD_ID"]));
+          $count = $count + $count_this; 
         }
         echo $count;
         echo "<br>".Plugin_GetLocale("forum", "FORUM_04");

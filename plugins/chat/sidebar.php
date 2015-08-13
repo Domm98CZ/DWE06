@@ -45,7 +45,7 @@
           if($chat_message[$i]["USER_ID"] == $_SESSION["USER_ID"] && $_SESSION["USER_ID"] > 0 || User_Rights($_SESSION["USER_ID"], "Z") && $_SESSION["USER_ID"] > 0)
 			    {
             ?>
-            <form method="post">
+            <form method="post" action="?page=plugin&plugin=chat">
               <input type="hidden" name="chat_message_id" value="<?php echo $chat_message[$i]["MESSAGE_ID"];?>">
               <input type="submit" name="chat_message_delete" value="Smazat zprávu" class="btn btn-xs btn-danger">
             </form>        

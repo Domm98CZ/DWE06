@@ -31,11 +31,11 @@ function round_up($value, $places=0)
 function ShowBB()
 {
   $text = array();
-  $text[] = "@".Database_Select("USER", array("USER_RIGHTS" => "A"), "USER_NAME", "ORDER BY `USER_ID` DESC");
+  $text[] = "@".Database_Select("USER", array("NONE" => "NONE"), "USER_NAME", "ORDER BY `USER_ID` ASC");
   $text[] = "http://www.twitch.tv/esl_csgo";
   $text[] = "https://www.youtube.com/watch?v=TbGu4mxZDY8";
   $text[] = "[url=http://facebook.com]Facebook[/url]";
-  $text[] = "[img]".Database_Select("USER", array("USER_RIGHTS" => "A"), "USER_AVATAR", "ORDER BY `USER_ID` DESC")."[/img]";
+  $text[] = "[img]".Database_Select("USER", array("NONE" => "NONE"), "USER_AVATAR", "ORDER BY `USER_ID` ASC")."[/img]";
   $text[] = "[b]text[/b]";
   $text[] = "[u]text[/u]";
   $text[] = "[i]text[/i]";
