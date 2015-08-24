@@ -22,7 +22,7 @@ function User_Banned($user_id)
   if($_GET["page"] != "bans")
   {
     $ban_data = Database_Select("BANS", array("USER_ID" => $user_id));
-    if($ban_data != "N/A") header("location: ?page=bans&ban=".$ban_data["BAN_ID"]);
+    if(!empty($ban_data) && isset($ban_data)) header("location: ?page=bans&ban=".$ban_data["BAN_ID"]);
   }
 }
 

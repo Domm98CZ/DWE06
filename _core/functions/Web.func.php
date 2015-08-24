@@ -110,7 +110,7 @@ function Web_IPBanned()
   if($_GET["page"] != "bans")
   {
     $ban_data = Database_Select("BANS", array("IP" => User_IP(1)));
-    if($ban_data != "N/A") header("location: ?page=bans&ban=".$ban_data["BAN_ID"]);
+    if(!empty($ban_data) && isset($ban_data)) header("location: ?page=bans&ban=".$ban_data["BAN_ID"]);
   }
 }
 
@@ -250,7 +250,7 @@ function Web_VersionCheck($reupdate = 0)
   $build = $v[1];  
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_HEADER, 0);
-  curl_setopt($ch, CURLOPT_URL, "http://dwe.domm98.cz/updates/");
+  curl_setopt($ch, CURLOPT_URL, "http://dwe.domm98.cz/updates/?u=".urlencode(Web_GetOption("URL")));
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_TIMEOUT, 30);
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
@@ -379,6 +379,15 @@ function Web_VersionCheck($reupdate = 0)
             mkdir($update_file[$y]["PATH"]);
             $update_str .= "".$update_file[$y]["PATH"]." - Dir Created<br>";
           }
+        }
+        else if($update_file[$y]["ACTION"] == "SQL")
+        {
+          $file_content = file_get_contents("http://dwe.domm98.cz/updates/update_files/".$update_file[$y]["W_PATH"]);
+          if($file_content)
+          {
+            Database_FreeSql($file_content);
+            $update_str .= "Database Updated<br>";
+          }  
         }
       }
       return $update_str;

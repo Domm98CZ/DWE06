@@ -6,7 +6,7 @@ else
   if($p[0] == "page_post" && is_numeric($p[1]))
   {
     $page = Database_Select("POSTS", array("POST_ID" => $p[1], "POST_TYPE" => "page_post"));
-    if($page)
+    if(!empty($page) && isset($page))
     {
       ?>
       <div class="panel panel-primary">

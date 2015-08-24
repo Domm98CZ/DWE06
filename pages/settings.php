@@ -13,17 +13,11 @@ if($_SESSION["USER_ID"] > 0)
     			<div class="col-md-12">		  
     				<div class="panel panel-default">
     					<div class="panel-body">
-             
-              <?php
-              $active_link = array();
-              $active_link[0] = (empty($_GET["s"])) ? " class='active'" : "";
-              $active_link[1] = ($_GET["s"] == "pass") ? " class='active'" : "";
-              $active_link[2] = ($_GET["s"] == "avatar") ? " class='active'" : "";
-              ?> 
+              
               <ul class='nav nav-tabs' role='tablist'>  
-                <li<?php echo $active_link[0];?> role='presentation'><a href='?page=settings'><?php echo Web_GetLocale("SETTINGS_T1");?></a></li>
-                <li<?php echo $active_link[1];?> role='presentation'><a href='?page=settings&s=pass'><?php echo Web_GetLocale("SETTINGS_T2");?></a></li>
-						    <li<?php echo $active_link[2];?> role='presentation'><a href='?page=settings&s=avatar'><?php echo Web_GetLocale("SETTINGS_T3");?></a></li>
+                <li<?php echo (empty($_GET["s"])) ? " class='active'" : "";?> role='presentation'><a href='?page=settings'><?php echo Web_GetLocale("SETTINGS_T1");?></a></li>
+                <li<?php echo ($_GET["s"] == "pass") ? " class='active'" : "";?> role='presentation'><a href='?page=settings&s=pass'><?php echo Web_GetLocale("SETTINGS_T2");?></a></li>
+						    <li<?php echo ($_GET["s"] == "avatar") ? " class='active'" : "";?> role='presentation'><a href='?page=settings&s=avatar'><?php echo Web_GetLocale("SETTINGS_T3");?></a></li>
               </ul>
               
               <br />
@@ -57,7 +51,7 @@ if($_SESSION["USER_ID"] > 0)
                     if($_POST["new_pass_01"] == $_POST["new_pass_02"])
                     {
                       $data = Database_Select("USER", array("USER_ID" => $_SESSION["USER_ID"], "USER_PASS" => User_GeneratePassword($_SESSION["USER_ID"], $_POST["user_pass"]))); 
-                      if($data > 0)
+                      if(!empty($data) && isset($data))
                       {
                         User_CreatePasswordSalt($_SESSION["USER_ID"]);
                         Database_Update("USER", array("USER_PASS" => User_GeneratePassword($_SESSION["USER_ID"], $_POST["new_pass_01"])), array("USER_ID" => $_SESSION["USER_ID"])); 

@@ -2,7 +2,7 @@
 if(!empty($_GET["plugin"]) && isset($_GET["plugin"]))
 {
   $plugin = Database_Select("PLUGINS", array("PLUGIN_NAME" => $_GET["plugin"], "PLUGIN_ALLOW" => 1));
-  if($plugin != "N/A")
+  if(!empty($plugin) && isset($plugin))
   {
     require_once PLUGIN_DIR.$plugin["PLUGIN_NAME"]."/".$plugin["PLUGIN_NAME"].".php";
   }

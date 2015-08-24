@@ -5,7 +5,7 @@ if(@$_POST["delete_comment"])
 	{
 		if(User_Rights($_SESSION["USER_ID"], "U")) $comment = Database_Select("POSTS", array("POST_ID" => $_POST["comment_id"], "POST_TYPE" => "comments_post"));
 		else $comment = Database_Select("POSTS", array("POST_ID" => $_POST["comment_id"], "POST_TYPE" => "comments_post", "USER_ID" => $_SESSION["USER_ID"]));
-		if($comment != "N/A")
+	  if(!empty($comment) && isset($comment))
 		{
 			Database_Delete("POSTS", array("POST_ID" => $_POST["comment_id"], "POST_TYPE" => "comments_post"));
 			header("location: ?page=post&post=".$comment["POST_NAME"]);	
@@ -18,7 +18,7 @@ if(@$_POST["delete_comment"])
 if(!empty($_GET["post"]) && isset($_GET["post"]) && is_numeric($_GET["post"]))
 {
   $post_q = Database_Select("POSTS", array("POST_ID" => $_GET["post"]), "POST_NAME");
-  if($post_q != "N/A") 
+  if(!empty($post_q) && isset($post_q))
   {
     Post_ShowID($_GET["post"]);
 		if(Post_CountComments($_GET["post"]) > 0 || $_SESSION["USER_ID"] > 0)

@@ -87,7 +87,7 @@ if($_SESSION["USER_ID"] > 0)
 								else if($_GET["action"] == "edit")
 								{
 									$post = Database_Select("POSTS", array("POST_ID" => $_GET["p"], "POST_TYPE" => "news_post"));
-									if($post != "N/A")
+									if(!empty($post) && isset($post))
 									{
 										$pname = $post["POST_NAME"];
 										if($pname == "NONE") $pname = Web_GetLocale("ADMIN_153");
@@ -139,7 +139,7 @@ if($_SESSION["USER_ID"] > 0)
 								else if($_GET["action"] == "delete")
 								{
 									$post = Database_Select("POSTS", array("POST_ID" => $_GET["p"], "POST_TYPE" => "news_post"));
-									if($post != "N/A")
+									if(!empty($post) && isset($post))
 									{
 										$pname = $post["POST_NAME"];
 										if($pname == "NONE") $pname = Web_GetLocale("ADMIN_153");
@@ -236,7 +236,7 @@ if($_SESSION["USER_ID"] > 0)
                   if(!empty($_GET["d"]) && isset($_GET["d"]))
                   {
                     $dd = Database_Select("MENU", array("MENU_ID" => $_GET["d"]));
-                    if($dd != "N/A")
+                    if(!empty($dd) && isset($dd))
                     {
                       echo Web_GetLocale("ADMIN_135")." <b>".$dd["MENU_NAME"]."</b>";
                     }
@@ -317,7 +317,7 @@ if($_SESSION["USER_ID"] > 0)
                   if(!empty($_GET["l"]) && isset($_GET["l"]))
                   {
                     $ll = Database_Select("MENU", array("MENU_ID" => $_GET["l"]));
-                    if($ll != "N/A")
+                    if(!empty($ll) && isset($ll))
                     {
                       ?>
                       <h1><?php echo Web_GetLocale("ADMIN_138")." <b>".$ll["MENU_NAME"]."</b>";?></h1>
@@ -350,7 +350,7 @@ if($_SESSION["USER_ID"] > 0)
                   else if(!empty($_GET["d"]) && isset($_GET["d"]))
                   {
                     $dd = Database_Select("MENU", array("MENU_ID" => $_GET["d"]));
-                    if($dd != "N/A")
+                    if(!empty($dd) && isset($dd))
                     {
                       ?>
                       <h1><?php echo Web_GetLocale("ADMIN_133")." <b>".$dd["MENU_NAME"]."</b>";?></h1>
@@ -383,7 +383,7 @@ if($_SESSION["USER_ID"] > 0)
                   if(!empty($_GET["l"]) && isset($_GET["l"]))
                   {
                     $ll = Database_Select("MENU", array("MENU_ID" => $_GET["l"]));
-                    if($ll != "N/A")
+                    if(!empty($ll) && isset($ll))
                     {
                       ?>
                       <h1><?php echo Web_GetLocale("ADMIN_144")." <b>".$ll["MENU_NAME"]."</b>";?></h1>
@@ -402,7 +402,7 @@ if($_SESSION["USER_ID"] > 0)
                   else if(!empty($_GET["d"]) && isset($_GET["d"]))
                   {
                     $dd = Database_Select("MENU", array("MENU_ID" => $_GET["d"]));
-                    if($dd != "N/A")
+                    if(!empty($dd) && isset($dd))
                     {
                       ?>
                       <h1><?php echo Web_GetLocale("ADMIN_145")." <b>".$dd["MENU_NAME"]."</b>";?></h1>
@@ -503,7 +503,7 @@ if($_SESSION["USER_ID"] > 0)
                 if($_GET["action"] == "view")
                 {
                   $ban_data = Database_Select("BANS", array("BAN_ID" => $_GET["ban"]));
-                  if($ban_data != "N/A")
+                  if(!empty($ban_data) && isset($ban_data))
                   {
                     ?>
                     <h1><?php echo Web_GetLocale("ADMIN_180")." #".$_GET["ban"];?></h1>
@@ -525,7 +525,7 @@ if($_SESSION["USER_ID"] > 0)
                 else if($_GET["action"] == "delete")
                 {
                   $ban_data = Database_Select("BANS", array("BAN_ID" => $_GET["ban"]));
-                  if($ban_data != "N/A")
+                  if(!empty($ban_data) && isset($ban_data))
                   {
                     ?>
                     <h1><?php echo Web_GetLocale("ADMIN_195");?></h1>
@@ -728,7 +728,7 @@ if($_SESSION["USER_ID"] > 0)
                 else if($_GET["action"] == "ban")
                 {
                   $user = Database_Select("USER", array("USER_NAME" => $_GET["user"]));
-                  if($user != "N/A")
+                  if(!empty($user) && isset($user))
                   {
                     if($user["USER_RIGHTS"] != "X" && User_Rights($_SESSION["USER_ID"], "I"))
                     {
@@ -769,7 +769,7 @@ if($_SESSION["USER_ID"] > 0)
                 else if($_GET["action"] == "delete")
                 {
                   $user = Database_Select("USER", array("USER_NAME" => $_GET["user"]));
-                  if($user != "N/A")
+                  if(!empty($user) && isset($user))
                   {
                     if($user["USER_RIGHTS"] != "X" && User_Rights($_SESSION["USER_ID"], "X"))
                     {
@@ -933,7 +933,7 @@ if($_SESSION["USER_ID"] > 0)
                 else if($_GET["action"] == "edit")
                 {
                   $page = Database_Select("POSTS", array("POST_TYPE" => "page_post", "POST_ID" => $_GET["p"]));
-                  if($page != "N/A")
+                  if(!empty($page) && isset($page))
                   {
                     ?>
                     <h1><?php echo Web_GetLocale("ADMIN_117")." <b>".$page["POST_NAME"]."</b>";?> <?php if(User_Rights($_SESSION["USER_ID"], "X")) echo "<a target='_blank' href='?page=pages&p=".$_GET["p"]."' class='btn btn-xs btn-info'>".Web_GetLocale("ADMIN_121")."</a>";?></h1>
@@ -988,7 +988,7 @@ if($_SESSION["USER_ID"] > 0)
                 else if($_GET["action"] == "delete")
                 {
                   $page = Database_Select("POSTS", array("POST_TYPE" => "page_post", "POST_ID" => $_GET["p"]));
-                  if($page != "N/A")
+                  if(!empty($page) && isset($page))
                   {
                     ?>
                     <h1><?php echo Web_GetLocale("ADMIN_120")." <b>".$page["POST_NAME"]."</b>";?>?</h1>
@@ -1316,7 +1316,7 @@ if($_SESSION["USER_ID"] > 0)
                 else if($_GET["action"] == "view" && !empty($_GET["report"]) && isset($_GET["report"]) && is_numeric($_GET["report"]))
                 {
                   $report = Database_Select("REPORTS", array("REPORT_ID" => $_GET["report"]));
-                  if($report != "N/A")
+                  if(!empty($report) && isset($report))
                   {
                     ?>
                     <h1><?php echo Web_GetLocale("ADMIN_57");?> #<?php echo $_GET["report"];?></h1>
@@ -1342,7 +1342,7 @@ if($_SESSION["USER_ID"] > 0)
                     if($report["REPORT_ADMIN"] != "NONE") 
                     {
                       $msg = Database_Select("MESSAGES", array("MESSAGE_ID" => $report["REPORT_MSG"]));
-                      if($msg != "N/A")
+                      if(!empty($msg) && isset($msg))
                       {
                         echo "<h2>".Web_GetLocale("ADMIN_76")."</h2>";
                         echo StrMagic($msg["MESSAGE_TEXT"]);    
@@ -1565,7 +1565,7 @@ if($_SESSION["USER_ID"] > 0)
                 else if($_GET["action"] == "edit" && !empty($_GET["sidebar"]) && isset($_GET["sidebar"]) && is_numeric($_GET["sidebar"]))
                 {
                   $sidebar = Database_Select("SIDEBAR", array("SIDEBAR_ID" => $_GET["sidebar"]));
-                  if($sidebar != "N/A")
+                  if(!empty($sidebar) && isset($sidebar))
                   {
                     if($sidebar["SIDEBAR_PLUGIN"] == "NONE")
                     {
@@ -1656,7 +1656,7 @@ if($_SESSION["USER_ID"] > 0)
                 else if($_GET["action"] == "delete" && !empty($_GET["sidebar"]) && isset($_GET["sidebar"]) && is_numeric($_GET["sidebar"]))
                 {
                   $sidebar = Database_Select("SIDEBAR", array("SIDEBAR_ID" => $_GET["sidebar"]));
-                  if($sidebar != "N/A")
+                  if(!empty($sidebar) && isset($sidebar))
                   {
                     ?>
                     <h1><?php echo Web_GetLocale("ADMIN_56");?> <b><?php echo $sidebar["SIDEBAR_NAME"];?></b>?</h1>

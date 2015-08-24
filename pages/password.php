@@ -5,10 +5,10 @@ else
   if(!empty($_GET["user"]) && !empty($_GET["key"])) 
   {
     $user = Database_Select("USER", array("USER_NAME" => $_GET["user"]));
-    if($user != "N/A")
+    if(!empty($user) && isset($user))
     {  
       $key = Database_Select("KEYS", array("USER_ID" => $user["USER_ID"], "KEY_TYPE" => "PASSWORD"));
-      if($key != "N/A")
+      if(!empty($key) && isset($key))
       {
         ?>
         <div class="panel panel-default">
@@ -111,7 +111,7 @@ else
           {
             $userbyname = Database_Select("USER", array("USER_NAME" => $_POST["user_name"]));
             $userbyemail = Database_Select("USER", array("USER_EMAIL" => $_POST["user_email"]));
-            if($userbyname != "N/A" && !empty($_POST["user_name"]))
+            if(!empty($userbyname) && isset($userbyname) && !empty($_POST["user_name"]))
             {    
               $user = $userbyname;
               $key = User_GenerateKey();
@@ -131,7 +131,7 @@ else
               ");
               ShowNotification("success", Web_GetLocale("PASS_EOK"));
             }
-            else if($userbyemail != "N/A" && !empty($_POST["user_email"]) && filter_var($_POST["user_email"], FILTER_VALIDATE_EMAIL)) 
+            else if(!empty($userbyemail) && isset($userbyemail) && !empty($_POST["user_email"]) && filter_var($_POST["user_email"], FILTER_VALIDATE_EMAIL)) 
             {
               $user = $userbyemail;
               $key = User_GenerateKey();

@@ -4,7 +4,7 @@ if($_SESSION["USER_ID"] > 0)
   if(!empty($_GET["user"]) && isset($_GET["user"]) && strlen($_GET["user"]) > 2)
   {
     $user = User_Data(User_ID($_GET["user"]));
-    if($user)
+    if(!empty($user) && isset($user))
     {
       ?>
       <div class="panel panel-default">

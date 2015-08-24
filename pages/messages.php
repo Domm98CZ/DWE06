@@ -10,17 +10,10 @@ if($_SESSION["USER_ID"] > 0)
       <div class="row">
         <div class="col-sm-3 col-md-2">
           <ul class="nav nav-pills nav-stacked">
-            <?php
-            $active_link = array();
-            $active_link[0] = (empty($_GET["action"])) ? " class='active'" : "";
-            $active_link[1] = ($_GET["action"] == "s_unread") ? " class='active'" : "";
-            $active_link[2] = ($_GET["action"] == "s_admin") ? " class='active'" : "";
-            $active_link[3] = ($_GET["action"] == "s_send") ? " class='active'" : "";
-            ?>
-            <li<?php echo $active_link[0];?> role="presentation"><a href="?page=messages"><?php echo Web_GetLocale("MSG_02");?></a></li>
-            <li<?php echo $active_link[1];?> role="presentation"><a href="?page=messages&action=s_unread"><?php echo Web_GetLocale("MSG_03");?></a></li>
-            <li<?php echo $active_link[2];?> role="presentation"><a href="?page=messages&action=s_admin"><?php echo Web_GetLocale("MSG_04");?></a></li>
-            <li<?php echo $active_link[3];?> role="presentation"><a href="?page=messages&action=s_send"><?php echo Web_GetLocale("MSG_19");?></a></li>  
+            <li<?php echo (empty($_GET["action"])) ? " class='active'" : "";?> role="presentation"><a href="?page=messages"><?php echo Web_GetLocale("MSG_02");?></a></li>
+            <li<?php echo ($_GET["action"] == "s_unread") ? " class='active'" : "";?> role="presentation"><a href="?page=messages&action=s_unread"><?php echo Web_GetLocale("MSG_03");?></a></li>
+            <li<?php echo ($_GET["action"] == "s_admin") ? " class='active'" : "";?> role="presentation"><a href="?page=messages&action=s_admin"><?php echo Web_GetLocale("MSG_04");?></a></li>
+            <li<?php echo ($_GET["action"] == "s_send") ? " class='active'" : "";?> role="presentation"><a href="?page=messages&action=s_send"><?php echo Web_GetLocale("MSG_19");?></a></li>  
           </ul>
           <hr>
           <a href="?page=messages&action=new" class="btn btn-success"><?php echo Web_GetLocale("MSG_05");?></a>
@@ -33,7 +26,7 @@ if($_SESSION["USER_ID"] > 0)
             if(!empty($_GET["user"]) && isset($_GET["user"]))
             {
               $user_id = Database_Select("USER", array("USER_NAME" => $_GET["user"]), "USER_ID");
-              if($user_id > 0) $user = $_GET["user"];   
+              if(!empty($user_id) && isset($user_id)) $user = $_GET["user"];   
             }
             ?>
             <form method="post">
@@ -56,7 +49,7 @@ if($_SESSION["USER_ID"] > 0)
               if(!empty($_POST["user_name"]) && !empty($_POST["msg_topic"]) && !empty($_POST["msg_text"]))
               {
                 $user_id = Database_Select("USER", array("USER_NAME" => $_POST["user_name"]), "USER_ID"); 
-                if($user_id > 0) 
+                if(!empty($user_id) && isset($user_id))
                 {
                   Message_Create(
                     array(
@@ -107,7 +100,7 @@ if($_SESSION["USER_ID"] > 0)
                   if(!empty($_POST["msg_text"]))
                   {
                     $mzg = Database_Select("MESSAGES", array("MESSAGE_ID" => $_GET["msg"], "READ_USER_ID" => $_SESSION["USER_ID"]));
-                    if($mzg > 0)
+                    if(!empty($mzg) && isset($mzg))
                     {
                       Message_Create(
                         array(

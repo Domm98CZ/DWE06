@@ -99,7 +99,7 @@ function Database_Select($table, $params = array(), $data = 'array', $order = nu
     if($data == 'array') return $info;  
     else return $info[$data];
   }
-  else return "N/A";
+  else return null;
 }
 
 function Database_Select_All($table, $params = array(), $wdata = 'array', $order = null)

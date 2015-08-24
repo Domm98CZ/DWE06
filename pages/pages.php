@@ -2,7 +2,7 @@
 if(!empty($_GET["p"]) && isset($_GET["p"]))
 {
   $page = Database_Select("POSTS", array("POST_ID" => $_GET["p"], "POST_TYPE" => "page_post"));
-  if($page != "N/A")
+  if(!empty($page) && isset($page))
   {                  
     if($page["POST_SHOW"] == 2) 
     {

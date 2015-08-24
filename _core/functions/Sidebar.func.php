@@ -8,7 +8,7 @@ function Sidebar_ShowAll()
 function Sidebar_Show($sidebar_id)
 {
   $sidebar = Database_Select("SIDEBAR", array("SIDEBAR_ID" => $sidebar_id, "SIDEBAR_ALLOW" => 1));
-  if($sidebar > 0)
+  if(!empty($sidebar) && isset($sidebar))
   {
     ?>
     <div class="panel panel-<?php echo $sidebar["SIDEBAR_COLOR"];?>">
@@ -26,7 +26,7 @@ function Sidebar_Show($sidebar_id)
         if(Plugin_Files($sidebar["SIDEBAR_PLUGIN"], 1))
         {
 					$plugin = Database_Select("PLUGINS", array("PLUGIN_NAME" => $sidebar["SIDEBAR_PLUGIN"], "PLUGIN_ALLOW" => "1"));
-					if($plugin != "N/A") require_once(PLUGIN_DIR.$sidebar["SIDEBAR_PLUGIN"]."/sidebar.php");	
+					if(!empty($plugin) && isset($plugin)) require_once(PLUGIN_DIR.$sidebar["SIDEBAR_PLUGIN"]."/sidebar.php");	
 					else echo "Unknow plugin <b>".$sidebar["SIDEBAR_PLUGIN"]."</b>."; 
         }
       }

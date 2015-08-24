@@ -2,7 +2,7 @@
 if(!empty($_GET["ban"]) && isset($_GET["ban"]) && is_numeric($_GET["ban"]))
 {
   $ban_data = Database_Select("BANS", array("BAN_ID" => $_GET["ban"]));
-  if($ban_data != "N/A")
+  if(!empty($ban_data) && isset($ban_data))
   {
     ?>
     <div class="panel panel-danger">

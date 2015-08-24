@@ -21,10 +21,10 @@ else
       if(!empty($_GET["user"]) && !empty($_GET["key"])) 
       {
         $name_query = Database_Select("USER", array("USER_NAME" => $_GET["user"])); 
-        if($name_query > 0)
+        if(!empty($name_query) && isset($name_query))
         {
           $key_query = Database_Select("KEYS", array("KEY" => $_GET["key"], "USER_ID" => User_ID($_GET["user"]), "KEY_TYPE" => "REGISTER"), "KEY_TIME");
-          if($key_query > 0)
+          if(!empty($key_query) && isset($key_query))
           {
             Database_Update("USER", array("USER_RIGHTS" => "A"), array("USER_ID" => User_ID($_GET["user"])));
             Database_Delete("KEYS", array("KEY" => $_GET["key"]));

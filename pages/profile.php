@@ -83,7 +83,7 @@ if(!empty($user_id))
 			{
 				if(User_Rights($_SESSION["USER_ID"], "V")) $status = Database_Select("POSTS", array("POST_ID" => $_POST["status_id"], "POST_TYPE" => "status_post"));
 				else $status = Database_Select("POSTS", array("POST_ID" => $_POST["status_id"], "POST_TYPE" => "status_post", "USER_ID" => $_SESSION["USER_ID"]));
-				if($status != "N/A")
+				if(!empty($status) && isset($status))
 				{
 					Database_Delete("POSTS", array("POST_ID" => $_POST["status_id"], "POST_TYPE" => "status_post"));
 					header("location: ?page=profile&user=".User_Name($status["USER_ID"]));	
