@@ -170,7 +170,7 @@ require_once "_core/functions/Web.func.php";
                           "DB:PASS" => $_POST["db_password"],  
                           "DB:PREFIX" => $_POST["db_prefix"],  
                           "DWE:VERSION" => "6.0",  
-                          "DWE:BUILD" => 7
+                          "DWE:BUILD" => 8
                       ));  
                       header("location: setup.php?step=2");
                     $dwe_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
