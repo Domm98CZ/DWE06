@@ -112,12 +112,12 @@ require_once "_core/main.php";
       <!--center-->
       <div class="col-md-9">
       <?php
-      if(!EMPTY($_GET["page"]) && isset($_GET["page"]) && preg_match("/([A-Za-z])\w+/", $_GET["page"]))
+      if(!EMPTY($_GET["page"]) && isset($_GET["page"]) && preg_match("/([A-Za-z])\w+/", $_GET["page"], $p))
       {
-        if(file_exists("pages/".$_GET["page"].".php")) 
+        if(isset($p[0]) && !empty($p[0]) && file_exists("pages/".$p[0].".php")) 
         {
-          if($_GET["page"] == "index") include "pages/home.php";
-          include "pages/".$_GET["page"].".php";
+          if($p[0] == "index") include "pages/home.php";
+          include "pages/".$p[0].".php";
         }
         else include "pages/error.php"; 
       }
